@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <title>Game of Life Simulator</title>
+ 	<meta charset="utf-8">
+ 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+ 	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	<style type = "text/css">
+
+
+		h1 {
+			font-family: "Raleway", Arial, sans-serif;
+			text-align: left;
+			margin-left: 20px;
+			margin-top: 3%;
+			font-size: 32px;
+		}
+
+		body {
+			font-family: "Open Sans", sans-serif;
+			font-size: 12px;
+		}
+
+		button {
+		    background-color: #206040;
+		    border: none;
+		    color: white;
+		    padding: 10px 24px;
+		    text-align: center;
+		    display: inline-block;
+		    font-family: "Raleway", Arial, sans-serif;
+		    font-size: 14px;
+		    margin-right: 20px;
+		}
+
+		#wrap {  
+			margin: 0 auto; 
+		}
+
+		#controls {
+		  margin-left: 2%;
+		  margin-right: 1%;
+		  float: right;
+		}
+
+		#tick-counter{
+			background-color: #CFCFDB;
+		    color: black;
+		    padding: 10px 24px;
+		    text-align: center;
+		    display: inline-block;
+		    font-family: "Raleway", Arial, sans-serif;
+		    font-size: 14px;
+		    margin-left: 20px;
+		    font-weight: bold;
+
+		}
+
+		#instructions{
+			margin-left: 20px;
+
+		}
+
+
+		#info{
+			margin-left: 20px;
+		}
+
+
+	</style>
+
+    <script type="text/javascript", src="http://d3js.org/d3.v4.min.js"></script>
+    <script type="text/javascript" src="js/cells.js"></script>
+
+</head>
+
+<body>
+	<div id="wrap">
+		<header>
+			<h1> Conway's Game Of Life </h1>
+		</header>
+	
+		<div id="grid">
+		</div>
+		
+		<div id="control-bar">
+			<div id="controls">
+				<button type="button" id="go-stop" onclick="buttonPress()">Go</button>
+				<button type="button" id="reset" onclick="reset()">Reset Grid</button>
+			</div>
+
+			<div id="tick-counter">
+				Ticks: <a id="counter">0</a>
+			</div>
+		</div>
+
+		<div id="instructions">
+			<p> Click on the cells in the grid to toggle them between living (green) and dead (grey). 
+			</br>Press the <em>Go</em> button to start the game.
+			</br> Hit <em>Reset</em> at any time to go back to the empty grid.
+			</p>
+		</div>
+
+		<div id="info">
+		<p> This is a Javascript implementation of <a href ="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">Conway's Game of Life</a>, built using <a href="https://d3js.org/">D3.js</a>, by Kathryn Poole. </p>
+		</div>
+
+	</div>
+
+<script type="text/javascript">
+	
+	var pageHeight = window.innerHeight; 
+
+	var gridSize = 0.75 * pageHeight;
+	var margin = 20;
+	
+	var svg = d3.select("#grid")
+				.insert("svg")
+				.attr("width", gridSize + margin)
+				.attr("height", gridSize + margin);
+
+	
+	var nGrid = 100;
+	var cellSize = gridSize / nGrid;
+
+	var World = generateGrid();
+	var colourScale = d3.scaleOrdinal()
+						.range(["#CFCFDB", "#206040"]);
+
+	
+	var gameOn = 0;
+	var ticks = 0;
+
+	document.getElementById('wrap').style.width = gridSize + margin + "px";
+	
+	render(World);
+
+
+	</script>
+
+</body>
